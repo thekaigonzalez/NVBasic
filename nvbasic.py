@@ -172,4 +172,13 @@ def Interpreter():
 
 def pluginInit(env):
     if Path("./rcbrc.nvbas").exists():
-        print("Found it")
+        chunk = open("./rcbrc.nvbas", "r")
+        text = chunk.read()
+
+        for m in text.split("\n"):
+            nvbBuild(m)
+        
+        chunk.close()
+
+def exitPlugin():
+    pass # for no exit print.
