@@ -16,6 +16,8 @@
 # instead of compiling the entire statement, it'll compile a statement, with the first word being used as an alias for 
 # the statement to compile.
 
+from pathlib import Path
+
 """
 
 Example:
@@ -141,3 +143,33 @@ def nvbBuild(stat): return __nvb_build(stat)
 def nvbTranslate(stat): return __nvb_translate(stat)
 
 def nvdAddfunc(n, dat): __nvb_addfunc(n, dat)
+
+def Interpreter():
+    #import nvbasic as nvbasic
+    import platform
+    if (platform.system()=="Linux"):import readline
+
+    nvb_globalfuncs()
+
+    print("Welcome to the NVBasic Interpreter (Requires the NVBasic Lib to be linked!")
+    print("Type HELP if you need help with using it.")
+
+    def std_HELP(args):
+        print("NVBasic Interpreter is a programming language which aims to be a performant-subset of the QBasic programming language.")
+        print("Functions I can see:")
+        for fnc in builtins:
+            print("- " + fnc)
+            print("\tRun " + fnc + " <args>")
+        print("Refer to the NVBasic README for help.")
+
+    nvdAddfunc("HELP", std_HELP)
+
+    while True:
+        chn = input(">>>")
+        nvbBuild(chn)
+
+# RCBash Support
+
+def pluginInit(env):
+    if Path("./rcbrc.nvbas").exists():
+        print("Found it")
